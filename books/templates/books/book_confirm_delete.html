@@ -1,0 +1,9 @@
+{% extends 'books/base.html' %}
+{% block content %}
+    <form method="POST">
+        {% csrf_token %}
+        <p class="delete">Are you sure you want to delete <b>{{ object }}?</b></p>
+        <input class="btn btn-danger" type="submit" value="Delete">
+        <a class="btn btn-warning" href="{% url 'books:book_detail' pk=book.pk %}">Cancel</a>
+    </form>
+{% endblock content %}

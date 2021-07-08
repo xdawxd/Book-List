@@ -1,0 +1,13 @@
+{% extends 'books/base.html' %}
+{% block content %}
+    <div class="book-form">
+        <h1>{{ book.title }}</h1>
+        <h5>{{ book.author }} | Publicated on {{ book.pub_date }}</h5>
+        <h5>ISBN: {{ book.isbn_num }}</h5>
+        <h5>Language: {{ book.language }}</h5>
+        <h5>{{ book.page_count }} pages.</h5>
+        <h5><a href="{{ book.preview_link }}">Preview</a></h5>
+        <a class="btn btn-primary" href="{% url 'books:book_update' pk=book.pk %}">Update</a>
+        <a class="btn btn-danger" href="{% url 'books:book_delete' pk=book.pk%}">Delete</a>
+    </div>
+{% endblock content %}

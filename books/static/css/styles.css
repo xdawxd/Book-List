@@ -1,0 +1,96 @@
+body{
+    font-family: 'Rajdhani', sans-serif;
+    background-color: #212529;
+    color: white;
+}
+
+.nav{
+    background-color: #1b1e21;
+    margin-bottom: 50px;
+}
+
+.nav h1{
+    margin: auto;
+}
+
+.home{
+    margin-left: 20px;
+}
+
+.search-bar {
+    margin: auto;
+    font-size: 1.5em;
+    width: 40%;
+}
+
+.book-form{
+    padding: 0.5rem 1rem;
+    background-color: #1b1e21;
+    border-radius: .3rem;
+    width: 30%
+}
+
+@media (max-width: 480px){
+    .search-bar{
+        margin: auto;
+        font-size: 1.5em;
+        width: 100%;
+    }
+    .book-form{
+        padding: 0.5rem 1rem;
+        background-color: #1b1e21;
+        border-radius: .3rem;
+        width: 100%
+    }
+}
+
+.control-label{
+    font-size: 1.5em;
+}
+
+.text-center button{
+    margin-top: 1.2em;
+    font-size: 1.5em;
+}
+
+.form-group{
+    margin-top: 1.2em;
+}
+
+.book-list{
+    background-color: #1b1e21;
+    border-radius: 20px;
+    margin: 1.2em;
+}
+
+.book-list p{
+    font-size: 1.2em;
+}
+
+.book-list p a{
+    text-decoration: none;
+}
+
+.container p{
+    padding: 5px;
+}
+
+.delete{
+    font-size: 1.5em;
+}
+
+.edit-btn {
+    font-size: 1.2em;
+    display: block;
+    margin: 10px 0;
+    padding: 10px;
+    width: 100%;
+}
+
+.error{
+    color: red;
+}
+
+ul.errorlist{
+    display: none;
+}
