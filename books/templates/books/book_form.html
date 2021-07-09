@@ -1,7 +1,7 @@
 {% extends 'books/base.html' %}
 {% block content %}
     <div class="book-form">
-        <form method="POST">
+        <form method="POST" novalidate>
             {% if form.errors %}
             {% for field in form %}
                 {% for error in field.errors %}

@@ -20,7 +20,8 @@
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav">
                 <a class="nav-item nav-link" href="{% url 'books:book_new' %}">Add new book</a>
-                <a class="nav-item nav-link" href="#">Import</a>
+                <a class="nav-item nav-link" href="{% url 'books:api_book_create' %}">Import</a>
+                <a class="nav-item nav-link" href="{% url 'books:api_book_list' %}">API View List</a>
             </div>
         </div>
     </nav>

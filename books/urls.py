@@ -1,13 +1,15 @@
 from django.urls import path
-from books import views
+from books.views import book_views, api_views
 
 app_name = 'books'
 
 urlpatterns = [
-    path('', views.BookListView.as_view(), name='book_list'),
-    path('book/<int:pk>', views.BookDetailView.as_view(), name='book_detail'),
-    path('book/new/', views.BookCreateView.as_view(), name='book_new'),
-    path('book/<int:pk>/edit/', views.BookUpdateView.as_view(), name='book_update'),
-    path('book/<int:pk>/remove/', views.BookDeleteView.as_view(), name='book_delete'),
-    # path('book/search_for/', views.SearchListView.as_view(), name='search_list'),
+    path('', book_views.BookListView.as_view(), name='book_list'),
+    path('book/<int:pk>', book_views.BookDetailView.as_view(), name='book_detail'),
+    path('book/new/', book_views.BookCreateView.as_view(), name='book_new'),
+    path('book/<int:pk>/edit/', book_views.BookUpdateView.as_view(), name='book_update'),
+    path('book/<int:pk>/remove/', book_views.BookDeleteView.as_view(), name='book_delete'),
+
+    path('api/book-list/', api_views.book_list, name='api_book_list'),  # delete later | rename to 'book/import/'
+    path('api/book-create/', api_views.book_create, name='api_book_create'),
 ]
