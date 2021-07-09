@@ -15,6 +15,7 @@ from django.views.generic import (
 
 class BookListView(ListView):
     model = Book
+    ordering = ['-id']
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

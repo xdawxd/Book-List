@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'django_filters',
     'bootstrapform',
+    'isbn_field',
 ]
 
 MIDDLEWARE = [

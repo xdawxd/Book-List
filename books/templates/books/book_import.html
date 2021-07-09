@@ -1,0 +1,27 @@
+{% extends 'books/base.html' %}
+{% load bootstrap %}
+{% block content %}
+    <form method="POST" class="form-inline">
+        {% csrf_token %}
+        <div class="form-group import-form">
+            {% for field in form.visible_fields %}
+                <h4>Search: </h4>
+                {{ field }}
+            {% endfor %}
+        </div>
+        <div class="import-form">
+            <select name="dropdown" id="" class="btn btn-light">
+                <option value="intitle">Title</option>
+                <option value="inauthor">Author</option>
+                <option value="inpublisher">Publisher</option>
+                <option value="subject">Subject</option>
+                <option value="isbn">ISBN</option>
+                <option value="lccn">LCCN</option>
+                <option value="oclc">OCLC</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <input class="btn btn-light" type="submit" value="Import">
+        </div>
+    </form>
+{% endblock content %}

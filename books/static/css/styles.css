@@ -94,3 +94,16 @@ body{
 ul.errorlist{
     display: none;
 }
+
+.form-input{
+    width: 300px;
+}
+
+.import-form{
+    display: inline-block;
+}
+
+
+.dropdown-menu option{
+    cursor: pointer;
+}
