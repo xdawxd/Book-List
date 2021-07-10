@@ -9,7 +9,7 @@ class Book(models.Model):
     author = models.CharField('Author', max_length=100, validators=[MinLengthValidator(2)])
     pub_date = models.DateField('Publication Date')
     isbn_num = ISBNField('ISBN')
-    page_count = models.IntegerField('Number of Pages', validators=[MinValueValidator(1)], blank=True)
+    page_count = models.IntegerField('Number of Pages', validators=[MinValueValidator(1)], blank=True, null=True)
     preview_link = models.URLField('Preview')
     language = models.CharField('Language', max_length=4, validators=[MinLengthValidator(2)])
 
