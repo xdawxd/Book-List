@@ -7,6 +7,8 @@ from books.models import Book
 from books.forms import SearchBookForm
 from django.shortcuts import render
 import requests
+from . import API_URL
+from myproject.settings import env
 
 
 class BookList(ListAPIView):
@@ -30,9 +32,9 @@ class ImportBookView(View):
         return render(request, self.template_name, {'form': form})
 
     def search(self, value, term):
-        api_key = ''
-        params = {'q': f'{value}+{term}', 'key': api_key}
-        books = requests.get('https://www.googleapis.com/books/v1/volumes', params=params)
+        api_key = env('API_KEY')
+        params = f'q=Hobbit+{term}:{value}&key={api_key}'
+        books = requests.get(API_URL, params=params)
         books_json = books.json()
         return books_json['items']
 

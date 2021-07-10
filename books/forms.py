@@ -12,10 +12,9 @@ class BookForm(forms.ModelForm):
 
     pub_date = forms.DateField(
         label='Publication Date',
-        widget=forms.widgets.DateInput(
-            attrs={
-                'type': 'date',
-                'class': 'form-control form-input'}
+        widget=forms.widgets.DateInput(attrs={
+            'type': 'date',
+            'class': 'form-control form-input'}
         )
     )
 

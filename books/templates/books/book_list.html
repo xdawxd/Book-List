@@ -17,7 +17,7 @@
                 <p>Language: {{ book.language }}</p>
                 <p>{{book.page_count }} pages</p>
                 <p><a href="{{ book.preview_link }}" target="_blank">Preview</a></p>
-                <p>Publication Date: {{ book.pub_date|date:"d/m/Y"}}r.</p> {# fix later #}
+                <p>Publication Date: {{ book.pub_date|date:"m/d/Y" }}r.</p>
                 <a class="btn btn-light edit-btn" href="{% url 'books:book_detail' pk=book.pk %}">Edit</a>
             </div>
         {% endfor %}

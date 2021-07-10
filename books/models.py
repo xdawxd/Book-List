@@ -4,10 +4,6 @@ from isbn_field import ISBNField
 # Create your models here.
 
 
-# class Author(models.Model):
-#     author_name = models.CharField('Author', max_length=100, validators=[MinLengthValidator(2)])
-
-
 class Book(models.Model):
     title = models.CharField('Title', max_length=200, validators=[MinLengthValidator(2)])
     author = models.CharField('Author', max_length=100, validators=[MinLengthValidator(2)])
