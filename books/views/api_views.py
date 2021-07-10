@@ -36,7 +36,7 @@ class ImportBookView(View):
         params = f'q=Hobbit+{term}:{value}&key={api_key}'
         books = requests.get(API_URL, params=params)
         books_json = books.json()
-        return books_json['items']
+        return books_json['items'], books.status_code
 
     def add_books(self, books):
         for book in books:
@@ -71,7 +71,7 @@ class ImportBookView(View):
         if form.is_valid():
             keyword = form.cleaned_data['keyword']
             term = request.POST['dropdown']
-            books = self.search(keyword, term)
+            books = self.search(keyword, term)[0]
             self.add_books(books)
 
             return redirect('books:book_list')
