@@ -39,5 +39,7 @@ class BookForm(forms.ModelForm):
 
 
 class SearchBookForm(forms.Form):
+    book_name = forms.CharField(
+        label='Name', widget=forms.widgets.TextInput(attrs={'class': 'form-control form-input'}))
     keyword = forms.CharField(
         label='Keyword', widget=forms.widgets.TextInput(attrs={'class': 'form-control form-input'}))
