@@ -22,3 +22,11 @@ class TestUrls:
     def test_book_delete_url(self):
         path = reverse('books:book_delete', kwargs={'pk': 1})
         assert resolve(path).view_name == 'books:book_delete'
+
+    def test_api_book_list(self):
+        path = reverse('books:api_book_list')
+        assert resolve(path).view_name == 'books:api_book_list'
+
+    def test_api_book_import(self):
+        path = reverse('books:api_book_import')
+        assert resolve(path).view_name == 'books:api_book_import'
