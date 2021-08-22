@@ -1,0 +1,7 @@
+<p class="title">Title: {{ book.title }}</p>
+<p>Author: {{ book.author }}</p>
+<p>ISBN: {{ book.isbn_num }}</p>
+<p>Language: {{ book.language }}</p>
+<p>{{book.page_count }} pages</p>
+<p><a href="{{ book.preview_link }}" target="_blank">Preview</a></p>
+<p>Publication Date: {{ book.pub_date|date:"d/m/Y" }}r.</p>

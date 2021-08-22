@@ -1,0 +1,13 @@
+<nav class="nav navbar navbar-expand-lg navbar-dark">
+    <a class="navbar-brand home" href="{% url 'books:book_list' %}">Book List</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+            <a class="nav-item nav-link" href="{% url 'books:book_new' %}">Add new book</a>
+            <a class="nav-item nav-link" href="{% url 'books:api_book_import' %}">Import</a>
+            <a class="nav-item nav-link" href="{% url 'books:api_book_list' %}">API View List</a>
+        </div>
+    </div>
+</nav>
