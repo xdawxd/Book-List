@@ -11,13 +11,7 @@
     <div class="row justify-content-center">
         {% for book in filter.qs %}
             <div class="col-sm-5 mt-5 book-list">
-                <p class="title">Title: {{ book.title }}</p>
-                <p>Author: {{ book.author }}</p>
-                <p>ISBN: {{ book.isbn_num }}</p>
-                <p>Language: {{ book.language }}</p>
-                <p>{{book.page_count }} pages</p>
-                <p><a href="{{ book.preview_link }}" target="_blank">Preview</a></p>
-                <p>Publication Date: {{ book.pub_date|date:"m/d/Y" }}r.</p>
+                {% include 'books/book_data.html' %}
                 <a class="btn btn-light edit-btn" href="{% url 'books:book_detail' pk=book.pk %}">Edit</a>
             </div>
         {% endfor %}
