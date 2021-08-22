@@ -1,0 +1,23 @@
+{% extends 'books/base.html' %}
+{% load static %}
+{% block content %}
+    <form method="POST">
+        {% csrf_token %}
+        <div class="row justify-content-center">
+            {% for book in books %}
+                <div class="col-sm-5 mt-5 book-list">
+                    {% include 'books/book_data.html' %}
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" id="importBook" name="importCheckBox">
+                        <label class="form-check-label" for="importBook">Do You want to import that book?</label>
+                        {# fix the label #}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        <input class="btn btn-light edit-btn" type="submit" value="Import" onclick="ifImport()">
+    </form>
+    {% block javascript %}
+        <script src="{% static 'js/scripts.js' %}"></script>
+    {% endblock javascript %}
+{% endblock content%}
