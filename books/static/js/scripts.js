@@ -1,10 +1,9 @@
-function ifImport(){
-    const checkBoxes = new Map();
-    for (let bookCheckBox of document.getElementsByName("importCheckBox")){
-        checkBoxes.set(bookCheckBox, false);
-    }
+var checkBoxes = document.getElementsByClassName("importCheckBox")
 
-    for (let [key, value] of checkBoxes.entries()){
-        value = !!key.checked;
-    }
+for (let i = 0; i < checkBoxes.length; ++i){
+    checkBoxes[i].addEventListener('change', function(){
+        let bookId = this.dataset.book;
+        let action = this.dataset.action;
+        console.log('bookId: ', bookId, ' Action: ', action);
+    })
 }
