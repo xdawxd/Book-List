@@ -129,6 +129,6 @@ class ImportConfirmView(ListView):
         return render(request, self.template_name, context=context)
 
     def post(self, request, *args, **kwargs):
-        # self.add_books(books)
+        self.add_books(self.book_list)
 
         return redirect('books:book_list')
