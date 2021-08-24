@@ -8,14 +8,12 @@
                 <div class="col-sm-5 mt-5 book-list">
                     {% include 'books/book_data.html' %}
                     <div class="form-check form-switch">
-                        <input data-book="{{ book.id }}" data-action="added" class="form-check-input importCheckBox" type="checkbox" id="importBook">
-                        <label class="form-check-label" for="importBook">Do You want to import that book?</label>
-                        {# fix the label #}
+                        <span data-book="{{ book.isbn_num }}" data-action="not-added">{{ form }}</span>
                     </div>
                 </div>
             {% endfor %}
         </div>
-        <input class="btn btn-light edit-btn" type="submit" value="Import">
+        <input class="btn btn-light edit-btn" type="submit" value="Import" onclick="fetchData()">
     </form>
     {% block javascript %}
         <script src="{% static 'js/scripts.js' %}"></script>

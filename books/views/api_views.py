@@ -2,9 +2,9 @@ from rest_framework.generics import ListAPIView
 from django_filters.rest_framework import DjangoFilterBackend
 from books.api.serializers import BookSerializer
 from django.views.generic import View, ListView
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect
 from books.models import Book
-from books.forms import SearchBookForm
+from books.forms import SearchBookForm, ImportConfirmForm
 from django.shortcuts import render
 import requests
 from . import API_URL
@@ -38,9 +38,9 @@ class ImportBookView(View):
         return render(request, self.template_name, {'form': form})
 
     def post(self, request, *args, **kwargs):
-        form = self.form_class(request.POST)
-        if not form.is_valid():
-            return
+        # form = self.form_class(request.POST)
+        # if not form.is_valid():
+        #     return
 
         data = {
             'book_name': request.POST.get('book_name'),
@@ -54,6 +54,7 @@ class ImportBookView(View):
 
 
 class ImportConfirmView(ListView):
+    form_class = ImportConfirmForm
     template_name = 'books/book_import_confirm.html'
 
     def __init__(self, **kwargs):
@@ -111,7 +112,11 @@ class ImportConfirmView(ListView):
                 language=book['volumeInfo'].get('language')
             )
 
+    def get_checked_books(self):
+        pass
+
     def get(self, request, *args, **kwargs):
+        form = self.form_class(request.GET)
         self.book_name = request.session.get('book_name')
         self.keyword = request.session.get('keyword')
         self.term = request.session.get('term')
@@ -124,11 +129,18 @@ class ImportConfirmView(ListView):
             'keyword': self.keyword,
             'term': self.term,
             'books': self.book_list,
+            'form': form,
         }
 
         return render(request, self.template_name, context=context)
 
     def post(self, request, *args, **kwargs):
-        self.add_books(self.book_list)
+        form = self.form_class(request.POST)
+        if not form.is_valid():
+            return
+
+        books = self.get_checked_books()
+
+        # self.add_books(self.book_list)
 
         return redirect('books:book_list')
