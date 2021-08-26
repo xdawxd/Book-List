@@ -23,7 +23,7 @@ var checkbox = {
 var importForm = document.getElementById("importForm");
 
 importForm.addEventListener('submit', function(e){
-    // e.preventDefault();
+    e.preventDefault();
 
     const url = "/api/import-confirm/"
     const csrftoken = this.getElementsByTagName("input")[0].value;
