@@ -3,10 +3,13 @@ from django_filters.rest_framework import DjangoFilterBackend
 from books.api.serializers import BookSerializer
 from django.views.generic import View, ListView
 from django.shortcuts import redirect
+from django.core import serializers
 from books.models import Book
 from books.forms import SearchBookForm, ImportConfirmForm
+from django.http import JsonResponse
 from django.shortcuts import render
 import requests
+import json
 from . import API_URL
 import pandas as pd
 from myproject.settings import env
@@ -38,10 +41,6 @@ class ImportBookView(View):
         return render(request, self.template_name, {'form': form})
 
     def post(self, request, *args, **kwargs):
-        # form = self.form_class(request.POST)
-        # if not form.is_valid():
-        #     return
-
         data = {
             'book_name': request.POST.get('book_name'),
             'keyword': request.POST.get('keyword'),
@@ -63,6 +62,9 @@ class ImportConfirmView(ListView):
         self.keyword = None
         self.term = None
         self.book_list = []
+
+    def set_session_data(self, request, books):
+        request.session['books'] = serializers.serialize('json', books)
 
     def correct_date(self, pub_date):
         return pd.to_datetime(pub_date)
@@ -98,22 +100,24 @@ class ImportConfirmView(ListView):
 
     def add_books(self, books):
         for book in books:
-            pub_date = self.correct_date(book['volumeInfo'].get('publishedDate'))
-            author = book['volumeInfo'].get('authors')[-1]  # TODO -> add author model and fix this
-            isbn, = self.correct_isbn(book)
+            book.save()
 
-            Book.objects.get_or_create(
-                title=book['volumeInfo'].get('title'),
-                author=author,
-                pub_date=pub_date,
-                isbn_num=isbn['identifier'],
-                page_count=book['volumeInfo'].get('pageCount'),
-                preview_link=book['volumeInfo'].get('previewLink'),
-                language=book['volumeInfo'].get('language')
-            )
+    def is_already_added(self, books, isbn):
+        books += Book.objects.all()
+        for book in books:
+            if book.isbn_num == isbn:
+                return True
+        return False
 
-    def get_checked_books(self):
-        pass
+    def get_checked_books(self, data, books):
+        checked_books = []
+        for isbn, action in data.items():
+            for book in json.loads(books):
+                book['fields']['pub_date'] = self.correct_date(book['fields']['pub_date'])
+                book = Book(**book['fields'])
+                if book.isbn_num == isbn and action == 'added' and not self.is_already_added(checked_books, isbn):
+                    checked_books.append(book)
+        return checked_books
 
     def get(self, request, *args, **kwargs):
         form = self.form_class(request.GET)
@@ -123,6 +127,8 @@ class ImportConfirmView(ListView):
 
         books_json = self.search(self.book_name, self.keyword, self.term)
         self.get_books(books_json)
+
+        self.set_session_data(request, self.book_list)
 
         context = {
             'book_name': self.book_name,
@@ -139,8 +145,10 @@ class ImportConfirmView(ListView):
         if not form.is_valid():
             return
 
-        books = self.get_checked_books()
+        data = json.loads(request.body)
+        books = request.session.get('books')
 
-        # self.add_books(self.book_list)
+        checked_books = self.get_checked_books(data, books)
+        self.add_books(checked_books)
 
-        return redirect('books:book_list')
+        return JsonResponse('Books imported.', safe=False)

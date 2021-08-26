@@ -48,7 +48,7 @@ class SearchBookForm(forms.Form):
 class ImportConfirmForm(forms.Form):
     check_box = forms.BooleanField(
         required=False,
-        label="Do You want to import that book?",
+        label="Import",
         widget=forms.CheckboxInput(attrs={
             'onchange': 'checkbox.ifChecked(this);',
             'class': 'form-check-input',

@@ -1,13 +1,6 @@
 
 var checkbox = {
     checkedBooks: {},
-    fixJSON: function(){
-        for (let isbn of this.checkedBooks){
-            if (this.checkedBooks[isbn] === 'not-added'){
-                delete this.checkedBooks[isbn];
-            }
-        }
-    },
     ifChecked: function(checkbox){
         let bookData = checkbox.parentElement.dataset.book;
 
@@ -22,27 +15,29 @@ var checkbox = {
 
         this.checkedBooks[bookData] = bookAction;
 
-        console.log(this.checkedBooks);
+        console.log(this.checkedBooks); // for debug
     }
 
 }
 
-function fetchData(){
-    let books = checkbox.checkedBooks;
-    let url = "http://127.0.0.1:8000/"
+var importForm = document.getElementById("importForm");
 
-    console.log(books);
+importForm.addEventListener('submit', function(e){
+    // e.preventDefault();
+
+    const url = "/api/import-confirm/"
+    const csrftoken = this.getElementsByTagName("input")[0].value;
+
 
     fetch(url, {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'X-CSRFToken': csrftoken,
         },
-        body: JSON.stringify({books}),
-        }
-    )
-
-    .then((response) => {
-        return response.json();
+        body: JSON.stringify(checkbox.checkedBooks),
     })
-}
+    .then(res => res.json())
+    .then(console.log)
+    .catch(console.log)
+});
