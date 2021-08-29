@@ -1,7 +1,7 @@
 from rest_framework.generics import ListAPIView
 from django_filters.rest_framework import DjangoFilterBackend
 from books.api.serializers import BookSerializer
-from django.views.generic import View, ListView
+from django.views.generic import View, ListView, FormView
 from django.shortcuts import redirect
 from django.core import serializers
 from books.models import Book
@@ -49,12 +49,12 @@ class ImportBookView(View):
 
         self.set_session_data(request, data)
 
-        return redirect('books:api_import_confirm')
+        # return redirect('books:api_import_confirm')
 
 
 class ImportConfirmView(ListView):
     form_class = ImportConfirmForm
-    template_name = 'books/book_import_confirm.html'
+    template_name = 'books/import_modal.html'
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -62,6 +62,10 @@ class ImportConfirmView(ListView):
         self.keyword = None
         self.term = None
         self.book_list = []
+
+    def get_context_data(self, **kwargs):
+        kwargs['modal_form'] = kwargs.pop('form')
+        return super(ImportConfirmView, self).get_context_data(**kwargs)
 
     def set_session_data(self, request, books):
         request.session['books'] = serializers.serialize('json', books)
