@@ -1,7 +1,8 @@
 {% extends 'books/base.html' %}
 {% load bootstrap %}
+{% load static %}
 {% block content %}
-    <form method="POST" class="form-inline">
+    <form method="POST" class="form-inline" id="ImportForm">
         {% csrf_token %}
         <div class="form-group import-form">
             <h4>Search: </h4>
@@ -10,7 +11,7 @@
             {% endfor %}
         </div>
         <div class="import-form">
-            <select name="dropdown" id="" class="btn btn-light">
+            <select name="dropdown" id="keywordDropdown" class="btn btn-light">
                 <option value="intitle">Title</option>
                 <option value="inauthor">Author</option>
                 <option value="inpublisher">Publisher</option>
@@ -20,9 +21,78 @@
                 <option value="oclc">OCLC</option>
             </select>
         </div>
-{#        <div class="form-group import-btn">#}
-{#                <input class="btn btn-light" type="submit" value="Search">#}
-{#        </div>#}
+        <div class="form-group import-btn">
+            <button name="searchSubmit" type="submit" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#exampleModalCenter">
+                Search
+            </button>
+        </div>
     </form>
+
     {% include 'books/import_modal.html' %}
+
+    <script type="text/javascript">
+        var importForm = document.getElementById('ImportForm');
+
+        importForm.addEventListener('submit', function(e){
+            e.preventDefault();
+
+            const url = '/api/import-book/'
+            const csrftoken = this.getElementsByTagName('input')[0].value;
+
+            const book_name = this.getElementsByTagName('span')[0].lastChild.value;
+            const keyword = this.getElementsByTagName('span')[1].lastChild.value;
+            const select = document.getElementById('keywordDropdown')
+            const dropdown = select.options[select.selectedIndex].value
+
+            const data = {
+                'book_name': book_name,
+                'keyword': keyword,
+                'dropdown': dropdown,
+                'submitBtn': 'searchSubmit',
+            }
+
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrftoken,
+                },
+                body: JSON.stringify(data),
+            })
+            .then(res => res.json())
+            .then(data => {
+                let books = JSON.parse(data);
+
+                for (let book of books){
+                    let modalBlock = document.getElementById('modalForm');
+                    let bookFields = book['fields'];
+                    let formattedDate = new Date(bookFields.pub_date).toLocaleString('pl-PL',
+                        {
+                            'day': '2-digit',
+                            'month': '2-digit',
+                            'year': 'numeric',
+                        })
+
+                    modalBlock.insertAdjacentHTML('beforeend', `
+                    <div class="col-sm-5 mt-5 book-list">
+                        <p class="title">Title: ${bookFields.title}</p>
+                        <p>Author: ${bookFields.author}</p>
+                        <p>ISBN: ${bookFields.isbn_num}</p>
+                        <p>Language: ${bookFields.language}</p>
+                        <p>${bookFields.page_count} pages</p>
+                        <p><a href="${bookFields.preview_link}" target="_blank">Preview</a></p>
+                        <p>Publication Date: ${formattedDate}r.</p>
+                        <div class="form-check form-switch">
+                            <span data-book="${bookFields.isbn_num}" data-action="not-added">{{ checkbox }}</span>
+                        </div>
+                    </div>
+                    `)
+                }
+            })
+            .catch(console.log)
+        })
+    </script>
 {% endblock content %}
+{% block javascript %}
+    <script type="text/javascript" src="{% static 'js/import.js' %}"></script>
+{% endblock javascript %}

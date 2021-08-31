@@ -11,5 +11,4 @@ urlpatterns = [
     path('book/<int:pk>/remove/', book_views.BookDeleteView.as_view(), name='book_delete'),
     path('api/book-list/', api_views.BookList.as_view(), name='api_book_list'),
     path('api/import-book/', api_views.ImportBookView.as_view(), name='api_book_import'),
-    path('api/import-confirm/', api_views.ImportConfirmView.as_view(), name='api_import_confirm'),
 ]

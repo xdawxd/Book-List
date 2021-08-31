@@ -5,10 +5,10 @@ var checkbox = {
         let bookData = checkbox.parentElement.dataset.book;
 
         if (checkbox.checked){
-            checkbox.parentElement.dataset.action = "added";
+            checkbox.parentElement.dataset.action = 'added';
         }
         else {
-            checkbox.parentElement.dataset.action = "not-added";
+            checkbox.parentElement.dataset.action = 'not-added';
         }
 
         let bookAction = checkbox.parentElement.dataset.action;
@@ -20,13 +20,13 @@ var checkbox = {
 
 }
 
-var importForm = document.getElementById("importForm");
+var importFormConfirm = document.getElementById('ImportFormConfirm');
 
-importForm.addEventListener('submit', function(e){
+importFormConfirm.addEventListener('submit', function(e){
     e.preventDefault();
 
-    const url = "/api/import-confirm/"
-    const csrftoken = this.getElementsByTagName("input")[0].value;
+    const url = '/api/import-book/'
+    const csrftoken = this.getElementsByTagName('input')[0].value;
 
 
     fetch(url, {

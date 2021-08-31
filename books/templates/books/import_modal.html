@@ -1,45 +1,25 @@
-{% load static %}
-<!-- Modal button -->
-<div class="form-group import-btn">
-    <button type="submit" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#exampleModalCenter">
-        Search
-    </button>
-</div>
 <!-- Modal -->
-<div class="modal fade" id="exampleModalCenter" data-bs-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-    <div style="width:100%; max-width:1820px; margin: auto;" class="modal-lg modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 style="color: black;" class="modal-title" id="exampleModalLongTitle">Select which books you want to import.</h5>
-                <button type="button" class="btn btn-dark close" data-bs-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <!-- Books -->
-                <form method="POST" id="importForm">
-                    {% csrf_token %}
-                    <div class="row justify-content-center">
-                        {% for book in books %}
-                            <div class="col-sm-5 mt-5 book-list">
-                                {% include 'books/book_data.html' %}
-                                <div class="form-check form-switch">
-                                    <span data-book="{{ book.isbn_num }}" data-action="not-added">{{ modal_form }}</span>
-                                </div>
-                            </div>
-                        {% endfor %}
+<form method="POST" id="ImportFormConfirm">
+    {% csrf_token %}
+    <div class="modal fade" id="exampleModalCenter" data-bs-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div style="width:100%; max-width:1820px; margin: auto;" class="modal-lg modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 style="color: black;" class="modal-title" id="exampleModalLongTitle">Select which books you want to import.</h5>
+                    <button type="button" class="btn btn-dark close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div id="modalForm" class="row justify-content-center">
+                        <!-- Space for JS inserting -->
                     </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="close btn btn-dark" data-bs-dismiss="modal">Close</button>
-                <a href="{% url 'books:book_list' %}">
+                </div>
+                <div class="modal-footer">
+                    <button name="modalSubmit" type="button" class="close btn btn-dark" data-bs-dismiss="modal">Close</button>
                     <button type="submit" class="btn btn-dark">Save changes</button>
-                </a>
+                </div>
             </div>
         </div>
     </div>
-</div>
-{% block javascript %}
-    <script type="text/javascript" src="{% static 'js/import.js' %}"></script>
-{% endblock javascript %}
+</form>
